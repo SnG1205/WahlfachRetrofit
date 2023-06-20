@@ -40,7 +40,7 @@ fun RegisterPageScreen(
         .padding(6.dp),
         Arrangement.Center,
     ) {
-        Text(text = "Welcome to  Register Page, Development is in progress")
+        Text(text = "Welcome to  Register Page. Please fill the fields below in order to create new account")
 
         Spacer(modifier = Modifier.padding(8.dp))
 
@@ -71,7 +71,7 @@ fun RegisterPageScreen(
         OutlinedButton(onClick = {
             viewModel.onEvent(RegisterPageEvent.OnCreateClick)
         }) {
-            Text(text = "Continue as  Guest")
+            Text(text = "Create Account")
         }
 
     }

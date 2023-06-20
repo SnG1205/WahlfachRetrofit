@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoScreen
 import com.plcoding.mvvmtodoapp.ui.guest_page.GuestPageScreen
 import com.plcoding.mvvmtodoapp.ui.login_page.LoginPageScreen
+import com.plcoding.mvvmtodoapp.ui.not_logged_page.NotLoggedPageScreen
 import com.plcoding.mvvmtodoapp.ui.register_page.RegisterPageScreen
 import com.plcoding.mvvmtodoapp.ui.saved_audios_page.SavedAudiosPageScreen
 import com.plcoding.mvvmtodoapp.ui.start_page.StartPageScreen
@@ -110,6 +111,14 @@ class MainActivity : ComponentActivity() {
                                 navController.popBackStack()
                             }
                         )
+                    }
+                    composable(
+                        route = Routes.NOT_LOGGED_PAGE
+                    ){
+                        NotLoggedPageScreen(
+                            onNavigate = {
+                            navController.navigate(it.route)
+                        })
                     }
 
                 }

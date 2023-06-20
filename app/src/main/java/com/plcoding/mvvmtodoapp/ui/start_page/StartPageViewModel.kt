@@ -32,7 +32,7 @@ class StartPageViewModel @Inject constructor() : ViewModel() {
                 sendUiEvent(UiEvent.Navigate(Routes.REGISTER_PAGE))
             }
             is StartPageEvent.OnGuestClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.GUEST_PAGE))
+                sendUiEvent(UiEvent.Navigate(Routes.NOT_LOGGED_PAGE))
             }
             is StartPageEvent.OnGetDataClick ->{
                 viewModelScope.launch {

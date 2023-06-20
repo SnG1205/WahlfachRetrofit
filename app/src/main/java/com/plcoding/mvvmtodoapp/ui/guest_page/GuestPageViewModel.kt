@@ -1,7 +1,11 @@
 package com.plcoding.mvvmtodoapp.ui.guest_page
 
+import android.app.Application
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -21,8 +25,15 @@ import javax.inject.Inject
 @HiltViewModel
 class GuestPageViewModel @Inject constructor(
     private val repository: MessageRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    application: Application
 ): ViewModel(){
+
+    private val voiceToText by lazy {
+        VoiceToTextParser(application)
+    }
+
+
 
     var text by mutableStateOf("")
     var invisible by mutableStateOf("")

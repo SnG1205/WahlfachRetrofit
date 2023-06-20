@@ -10,4 +10,5 @@ object Routes {
     const val GUEST_PAGE = "guest_page"
     const val START_PAGE = "start_page"
     const val SAVED_AUDIOS_PAGE = "saved_audios_page"
+    const val NOT_LOGGED_PAGE ="not_logged_page"
 }

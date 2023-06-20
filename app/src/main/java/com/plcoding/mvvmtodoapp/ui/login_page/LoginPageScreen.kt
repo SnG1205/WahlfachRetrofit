@@ -35,7 +35,7 @@ fun LoginPageScreen(
         .padding(6.dp),
         Arrangement.Center
     ) {
-        Text(text = "Welcome to  Login Page, Development is in progress")
+        Text(text = "Welcome to  Login Page. Enter Your data to continue.")
 
         Spacer(modifier = Modifier.padding(8.dp))
 
@@ -66,11 +66,11 @@ fun LoginPageScreen(
         OutlinedButton(onClick = {
             viewModel.onEvent(LoginPageEvent.OnLoginClick)
         }) {
-            Text(text = "Continue as  Guest")
+            Text(text = "Log in")
         }
 
         Spacer(modifier = Modifier.padding(8.dp))
         
-        Text(text = viewModel.db_username)
+        //Text(text = viewModel.db_username)
     }
 }

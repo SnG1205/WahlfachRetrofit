@@ -1,5 +1,8 @@
 package com.plcoding.mvvmtodoapp.ui.guest_page
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,9 +21,22 @@ fun GuestPageScreen(
     onNavigate: (UiEvent.Navigate) -> Unit
     ){
 
+    var canRecord by remember {
+        mutableStateOf(false)
+    }
+
+    // Creates an permission request
+    val recordAudioLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            canRecord = isGranted
+        }
+    )
+
     var showMenu by remember {mutableStateOf(false)}
 
     LaunchedEffect(key1 = true) {
+        recordAudioLauncher.launch(Manifest.permission.RECORD_AUDIO)
         viewModel.uiEvent.collect { event ->
             when(event) {
                 is UiEvent.Navigate -> onNavigate(event)
