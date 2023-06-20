@@ -3,6 +3,10 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.31'
+    //id 'org.jetbrains.kotlin.plugin.serialization'
+    //apply plugin: "kotlinx-serialization"
+    //id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -19,6 +23,12 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -33,14 +43,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
+        //useIR = true
     }
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerVersion '1.6.21'
     }
     packagingOptions {
         resources {
@@ -77,9 +87,26 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-beta01'
 
     // Room
-    implementation "androidx.room:room-runtime:2.3.0"
-    kapt "androidx.room:room-compiler:2.3.0"
+    implementation "androidx.room:room-runtime:2.4.0-alpha04"
+    kapt "androidx.room:room-compiler:2.4.0-alpha04"
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+
+
+    // Retrofit with scalar Converter
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+
+    // Kotlin serialization
+    //implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+
+
+    // Retrofit with Kotlin serialization Converter
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+
+
 }

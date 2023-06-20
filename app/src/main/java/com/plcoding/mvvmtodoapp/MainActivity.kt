@@ -14,6 +14,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoScreen
+import com.plcoding.mvvmtodoapp.ui.guest_page.GuestPageScreen
+import com.plcoding.mvvmtodoapp.ui.login_page.LoginPageScreen
+import com.plcoding.mvvmtodoapp.ui.register_page.RegisterPageScreen
+import com.plcoding.mvvmtodoapp.ui.saved_audios_page.SavedAudiosPageScreen
+import com.plcoding.mvvmtodoapp.ui.start_page.StartPageScreen
 import com.plcoding.mvvmtodoapp.ui.theme.MVVMTodoAppTheme
 import com.plcoding.mvvmtodoapp.ui.todo_list.TodoListScreen
 import com.plcoding.mvvmtodoapp.util.Routes
@@ -28,10 +33,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Routes.TODO_LIST
+                    startDestination = Routes.START_PAGE
                 ) {
-                    composable(Routes.TODO_LIST) {
-                        TodoListScreen(
+                    composable(Routes.START_PAGE) {
+                        StartPageScreen(
                             onNavigate = {
                                 navController.navigate(it.route)
                             }
@@ -50,6 +55,63 @@ class MainActivity : ComponentActivity() {
                             navController.popBackStack()
                         })
                     }
+                    composable(
+                        route = Routes.REGISTER_PAGE
+                    ){
+                        RegisterPageScreen(
+                            onPopBackStack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable(
+                        route = Routes.LOGIN_PAGE
+                    ){
+                        LoginPageScreen(
+                            onNavigate = {
+                                navController.navigate((it.route))
+                            }
+                        )
+                    }
+                    composable(
+                        route = Routes.GUEST_PAGE + "?db_id={db_id}" +"?db_username={db_username}",
+                        arguments = listOf(
+                            navArgument(name = "db_id"){
+                                type = NavType.StringType
+                                defaultValue = ""
+                            },
+                            navArgument(name = "db_username"){
+                                type = NavType.StringType
+                                defaultValue = ""
+                            }
+                        )
+                    ){
+                        GuestPageScreen(
+                            onNavigate = {
+                                navController.navigate((it.route))
+                            }
+                        )
+                    }
+
+                    composable(
+                        route = Routes.SAVED_AUDIOS_PAGE + "?user_id={user_id}",
+                        arguments = listOf(
+                            navArgument(name = "user_id"){
+                                type = NavType.StringType
+                                defaultValue = ""
+                            }
+                        )
+                    ){
+                        SavedAudiosPageScreen(
+                            onNavigate = {
+                                navController.navigate((it.route))
+                            },
+                            onPopBackStack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+
                 }
             }
         }

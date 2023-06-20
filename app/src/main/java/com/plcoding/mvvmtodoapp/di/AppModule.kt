@@ -3,9 +3,7 @@ package com.plcoding.mvvmtodoapp.di
 import android.app.Application
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.plcoding.mvvmtodoapp.data.TodoDatabase
-import com.plcoding.mvvmtodoapp.data.TodoRepository
-import com.plcoding.mvvmtodoapp.data.TodoRepositoryImpl
+import com.plcoding.mvvmtodoapp.data.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +29,17 @@ object AppModule {
     fun provideTodoRepository(db: TodoDatabase): TodoRepository {
         return TodoRepositoryImpl(db.dao)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoginRepository(db: TodoDatabase): LoginRepository {
+        return LoginRepositoryImpl(db.dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMessageRepository(db: TodoDatabase): MessageRepository {
+        return MessageRepositoryImpl(db.dao)
+    }
+
 }
