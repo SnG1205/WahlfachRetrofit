@@ -16,7 +16,9 @@ import javax.inject.Inject
 class StartPageViewModel @Inject constructor() : ViewModel() {
     var json by  mutableStateOf("")
     //var listResult = listOf<Logins>()
-    var display = mutableListOf<Logins>()
+    var display = mutableListOf<User>()
+    var logins = mutableListOf<Logins>()
+    var messages = mutableListOf<Messages>()
 
 
 
@@ -36,9 +38,14 @@ class StartPageViewModel @Inject constructor() : ViewModel() {
             }
             is StartPageEvent.OnGetDataClick ->{
                 viewModelScope.launch {
-                    json = TestApi.retrofitService.getLogins()
+                    //json = TestApi.retrofitService.getUsername("SnG1205", "SnG1205")[0].id.toString()
+                    //logins = TestApi.retrofitService.getLogins().toMutableList()
                     //display = listResult as MutableList<Logins>
-
+                    //display = TestApi.retrofitService.getUsername("SnG1205", "SnG1205").toMutableList()
+                    //messages = TestApi.retrofitService.getMessagesById(1).toMutableList()
+                    //TestApi.retrofitService.createUser(PostUser("Retrofit", "Retrofit"))
+                    //TestApi.retrofitService.createMessage(PostMessages("Retrofit message", 1))
+                    TestApi.retrofitService.deleteMessage("Retrofit message")
                 }
             }
         }

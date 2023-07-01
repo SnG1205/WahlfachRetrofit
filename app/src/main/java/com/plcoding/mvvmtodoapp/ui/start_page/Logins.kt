@@ -8,5 +8,5 @@ import okhttp3.MediaType
 
 @Serializable
 data class Logins(
-    val id: String, val username: String, val password: String
+    val id: Int, val username: String, val password: String
 )

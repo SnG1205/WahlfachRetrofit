@@ -3,6 +3,7 @@ package com.plcoding.mvvmtodoapp.ui.guest_page
 import android.app.Application
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,15 +30,15 @@ class GuestPageViewModel @Inject constructor(
     application: Application
 ): ViewModel(){
 
-    private val voiceToText by lazy {
+     val voiceToText by lazy {
         VoiceToTextParser(application)
     }
-
 
 
     var text by mutableStateOf("")
     var invisible by mutableStateOf("")
     var time by mutableStateOf<Long>(0)
+    var randomText by mutableStateOf("Empty now")
 
 
     val user_id = savedStateHandle.get<String>("db_id")!!

@@ -2,6 +2,8 @@ package com.plcoding.mvvmtodoapp.ui.start_page
 
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,6 +13,7 @@ import com.plcoding.mvvmtodoapp.util.UiEvent
 import kotlinx.coroutines.flow.collect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.plcoding.mvvmtodoapp.ui.saved_audios_page.SavedAudioItem
 
 @Composable
 fun StartPageScreen(
@@ -54,8 +57,16 @@ fun StartPageScreen(
 
         Spacer(modifier = Modifier.padding(8.dp))
 
+        /*LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(viewModel.display) { display ->
+                Text(text = display.id.toString())
+            }
+        }*/
+
         Text(text = viewModel.json)
-        //Text(text = viewModel.display.size.toString())
+        Text(text = viewModel.messages.size.toString())
     }
 
 
