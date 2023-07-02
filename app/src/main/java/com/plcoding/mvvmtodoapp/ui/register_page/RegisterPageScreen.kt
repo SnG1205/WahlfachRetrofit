@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoViewModel
 import com.plcoding.mvvmtodoapp.ui.not_logged_page.NotLoggedPageEvent
 import com.plcoding.mvvmtodoapp.ui.start_page.StartPageEvent
 import com.plcoding.mvvmtodoapp.util.UiEvent

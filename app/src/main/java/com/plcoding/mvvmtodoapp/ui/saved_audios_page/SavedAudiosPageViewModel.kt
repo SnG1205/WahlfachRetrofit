@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SavedAudiosPageViewModel @Inject constructor(
-    private val repository: MessageRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 

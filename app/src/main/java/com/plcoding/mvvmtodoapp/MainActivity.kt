@@ -16,7 +16,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoScreen
 import com.plcoding.mvvmtodoapp.ui.guest_page.GuestPageScreen
 import com.plcoding.mvvmtodoapp.ui.login_page.LoginPageScreen
 import com.plcoding.mvvmtodoapp.ui.not_logged_page.NotLoggedPageScreen
@@ -47,19 +46,6 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(it.route)
                             }
                         )
-                    }
-                    composable(
-                        route = Routes.ADD_EDIT_TODO + "?todoId={todoId}",
-                        arguments = listOf(
-                            navArgument(name = "todoId") {
-                                type = NavType.IntType
-                                defaultValue = -1
-                            }
-                        )
-                    ) {
-                        AddEditTodoScreen(onPopBackStack = {
-                            navController.popBackStack()
-                        })
                     }
                     composable(
                         route = Routes.REGISTER_PAGE
@@ -141,42 +127,26 @@ class MainActivity : ComponentActivity() {
     }
 
     fun getSpeechInput() {
-        // on below line we are checking if speech
-        // recognizer intent is present or not.
+
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
-            // if the intent is not present we are simply displaying a toast message.
             Toast.makeText(this, "Speech not Available", Toast.LENGTH_SHORT).show()
         } else {
-            // on below line we are calling a speech recognizer intent
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
-            // on the below line we are specifying language model as language web search
             intent.putExtra(
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
             )
-
-            // on below line we are specifying extra language as default english language
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-
-            // on below line we are specifying prompt as Speak something
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak Something")
 
-            // at last we are calling start activity
-            // for result to start our activity.
             startActivityForResult(intent, 101)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // on below line we are checking if the request
-        // code is same and result code is ok
         if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-            // if the condition is satisfied we are getting
-            // the data from our string array list in our result.
             val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            // on below line we are setting result
-            // in our output text method.
             outputTxt = result?.get(0).toString()
         }
     }

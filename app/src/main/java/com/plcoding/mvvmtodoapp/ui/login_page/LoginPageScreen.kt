@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.mvvmtodoapp.ui.register_page.RegisterPageEvent
 import com.plcoding.mvvmtodoapp.ui.register_page.RegisterPageViewModel
-import com.plcoding.mvvmtodoapp.ui.todo_list.TodoListEvent
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import kotlinx.coroutines.flow.collect
 

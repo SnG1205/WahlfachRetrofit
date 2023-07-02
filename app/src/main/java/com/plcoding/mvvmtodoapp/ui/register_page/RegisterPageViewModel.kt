@@ -6,11 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.plcoding.mvvmtodoapp.data.Login
-import com.plcoding.mvvmtodoapp.data.LoginRepository
-import com.plcoding.mvvmtodoapp.data.Todo
-import com.plcoding.mvvmtodoapp.data.TodoRepository
-import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoEvent
 import com.plcoding.mvvmtodoapp.ui.start_page.PostUser
 import com.plcoding.mvvmtodoapp.ui.start_page.TestApi
 import com.plcoding.mvvmtodoapp.util.Routes
@@ -23,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterPageViewModel @Inject constructor(
-    private val repository: LoginRepository
 ) : ViewModel() {
     var username by mutableStateOf("")
         private set

@@ -13,9 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.plcoding.mvvmtodoapp.ui.todo_list.TodoItem
-import com.plcoding.mvvmtodoapp.ui.todo_list.TodoListEvent
-import com.plcoding.mvvmtodoapp.ui.todo_list.TodoListViewModel
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import kotlinx.coroutines.flow.collect
 

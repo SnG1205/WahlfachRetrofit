@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginPageViewModel @Inject constructor(
-    private val repository: LoginRepository
 ) : ViewModel() {
     var username by mutableStateOf("")
         private set

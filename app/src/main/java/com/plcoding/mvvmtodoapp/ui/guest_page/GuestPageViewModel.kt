@@ -35,7 +35,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GuestPageViewModel @Inject constructor(
-    private val repository: MessageRepository,
     savedStateHandle: SavedStateHandle,
     application: Application
 ): ViewModel(){
