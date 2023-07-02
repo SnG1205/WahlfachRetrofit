@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.mvvmtodoapp.data.Login
 import com.plcoding.mvvmtodoapp.data.LoginRepository
 import com.plcoding.mvvmtodoapp.ui.register_page.RegisterPageEvent
+import com.plcoding.mvvmtodoapp.ui.start_page.TestApi
 import com.plcoding.mvvmtodoapp.util.Routes
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,14 +52,16 @@ class LoginPageViewModel @Inject constructor(
                         ))
                         return@launch
                     }*/
-                    db_username = repository.checkLogin(
+                    /*db_username = repository.checkLogin(
                         username = username,
                         password = password
-                    ).toString()
+                    ).toString()*/
+                    db_username = TestApi.retrofitService.getUsername(username, password)[0].username
 
-                    db_id = repository.getId(
+                    /*db_id = repository.getId(
                         username, password
-                    ).toString()
+                    ).toString()*/
+                    db_id =TestApi.retrofitService.getUsername(username, password)[0].id.toString()
 
                     if(db_username == username) {
                         sendUiEvent(UiEvent.Navigate(Routes.GUEST_PAGE + "?db_id=${db_id}" +"?db_username=${db_username}"))

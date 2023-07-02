@@ -45,7 +45,7 @@ class StartPageViewModel @Inject constructor() : ViewModel() {
                     //messages = TestApi.retrofitService.getMessagesById(1).toMutableList()
                     //TestApi.retrofitService.createUser(PostUser("Retrofit", "Retrofit"))
                     //TestApi.retrofitService.createMessage(PostMessages("Retrofit message", 1))
-                    TestApi.retrofitService.deleteMessage("Retrofit message")
+                    //TestApi.retrofitService.deleteMessage("Retrofit message")
                 }
             }
         }

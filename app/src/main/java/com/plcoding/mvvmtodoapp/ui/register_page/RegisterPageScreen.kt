@@ -26,8 +26,7 @@ fun RegisterPageScreen(
             when(event) {
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message,
-                        actionLabel = event.action
+                        message = event.message
                     )
                 }
                 is UiEvent.PopBackStack -> onPopBackStack()

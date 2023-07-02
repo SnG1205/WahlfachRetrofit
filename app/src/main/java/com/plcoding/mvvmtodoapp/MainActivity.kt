@@ -1,7 +1,6 @@
 package com.plcoding.mvvmtodoapp
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -9,15 +8,9 @@ import android.speech.SpeechRecognizer
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.app.ActivityCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +24,6 @@ import com.plcoding.mvvmtodoapp.ui.register_page.RegisterPageScreen
 import com.plcoding.mvvmtodoapp.ui.saved_audios_page.SavedAudiosPageScreen
 import com.plcoding.mvvmtodoapp.ui.start_page.StartPageScreen
 import com.plcoding.mvvmtodoapp.ui.theme.MVVMTodoAppTheme
-import com.plcoding.mvvmtodoapp.ui.todo_list.TodoListScreen
 import com.plcoding.mvvmtodoapp.util.Routes
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -103,7 +95,11 @@ class MainActivity : ComponentActivity() {
                         GuestPageScreen(
                             onNavigate = {
                                 navController.navigate((it.route))
-                            }
+                            },
+                            onVoice = {
+                                getSpeechInput()
+                            },
+                            recordedMessage = outputTxt
                         )
                     }
 
@@ -139,12 +135,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-     fun getSpeechInput(context: Context) {
+     fun getSpeechInput() {
         // on below line we are checking if speech
         // recognizer intent is present or not.
-        if (!SpeechRecognizer.isRecognitionAvailable(context)) {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             // if the intent is not present we are simply displaying a toast message.
-            Toast.makeText(context, "Speech not Available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Speech not Available", Toast.LENGTH_SHORT).show()
         } else {
             // on below line we are calling a speech recognizer intent
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)

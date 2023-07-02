@@ -7,4 +7,5 @@ sealed class GuestPageEvent{
     object OnSaveClick: GuestPageEvent()
     object OnLogOutClick: GuestPageEvent()
     object OnSavedAudiosClick: GuestPageEvent()
+    object OnRecordClick: GuestPageEvent()
 }

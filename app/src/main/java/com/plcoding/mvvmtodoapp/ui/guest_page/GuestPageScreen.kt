@@ -2,16 +2,12 @@ package com.plcoding.mvvmtodoapp.ui.guest_page
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -22,22 +18,29 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.mvvmtodoapp.MainActivity
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import kotlinx.coroutines.flow.collect
+import java.util.Locale
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GuestPageScreen(
     viewModel: GuestPageViewModel = hiltViewModel(),
-    onNavigate: (UiEvent.Navigate) -> Unit
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    onVoice: () -> Unit,
+    recordedMessage: String
     ){
 
     var canRecord by remember {
         mutableStateOf(false)
     }
 
-
     val voiceState by viewModel.voiceToText.state.collectAsState()
 
+    val voiceGoogle = VoiceGoogle()
     val context = LocalContext.current
+    val main = MainActivity()
+    var forVoice =false
+
+    val scaffoldState = rememberScaffoldState()
 
     // Creates an permission request
     val recordAudioLauncher = rememberLauncherForActivityResult(
@@ -54,12 +57,20 @@ fun GuestPageScreen(
         viewModel.uiEvent.collect { event ->
             when(event) {
                 is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message,
+                        actionLabel = event.action
+                    )
+                }
+                is UiEvent.Voice -> onVoice()
                 else -> Unit
             }
         }
     }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(title = { Text(text = "Welcome, ${viewModel.user}!")},
                 actions = {
@@ -71,7 +82,8 @@ fun GuestPageScreen(
                         DropdownMenuItem(onClick = { viewModel.onEvent(GuestPageEvent.OnSavedAudiosClick) }) {
                             Text(text = "Saved audios")
                         }
-                        DropdownMenuItem(onClick = { viewModel.onEvent(GuestPageEvent.OnLogOutClick) }) {
+                        DropdownMenuItem(onClick = {
+                            viewModel.onEvent(GuestPageEvent.OnLogOutClick) }) {
                             Text(text = "Log out")
                         }
                     }
@@ -119,6 +131,11 @@ fun GuestPageScreen(
                     viewModel.voiceToText.stopListening()
                     viewModel.randomText = voiceState.spokenText
                 }*/
+                //voiceGoogle.getSpeechInput()
+                //viewModel.onEvent(GuestPageEvent.OnRecordClick)
+                //voiceGoogle.getSpeechInput(context)
+                //main.getSpeechInput()
+                viewModel.onEvent(GuestPageEvent.OnRecordClick)
             }) {
                 Text(text = "Record")
             }
@@ -150,9 +167,12 @@ fun GuestPageScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.padding(8.dp))
+            Text(text = recordedMessage)
         }
     }
 }
+
 
 
 

@@ -1,12 +1,16 @@
 package com.plcoding.mvvmtodoapp.ui.saved_audios_page
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.mvvmtodoapp.data.MessageRepository
+import com.plcoding.mvvmtodoapp.ui.start_page.Messages
+import com.plcoding.mvvmtodoapp.ui.start_page.TestApi
 import com.plcoding.mvvmtodoapp.util.Routes
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,16 +26,28 @@ class SavedAudiosPageViewModel @Inject constructor(
 
     val sortType = MutableStateFlow(SortType.NONE)
 
+    var messages = mutableListOf<Messages>()
+
     //val messages = repository.getMessages(user_id.toInt())
 
+    /*@OptIn(ExperimentalCoroutinesApi::class)
     val messages = sortType
         .flatMapLatest { sortType ->
             when(sortType){
-                SortType.NONE -> repository.getMessages(user_id.toInt())
-                SortType.TEXT -> repository.getMessagesByTextAsc(user_id.toInt())
+                SortType.NONE ->   flow<List<Messages>> { TestApi.retrofitService.getMessagesById(user_id.toInt()).toMutableList() }//repository.getMessages(user_id.toInt())
+                SortType.TEXT -> flow { TestApi.retrofitService.getMessagesById(user_id.toInt()).toMutableList() } //repository.getMessagesByTextAsc(user_id.toInt())
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    val messages = TestApi.retrofitService.getMessagesById(1).toMutableList()*/
+
+    init {
+        viewModelScope.launch {
+            messages = TestApi.retrofitService.getMessagesById(user_id.toInt()).toMutableList()
+        }
+
+    }
+
 
     private val _uiEvent =  Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -57,7 +73,8 @@ class SavedAudiosPageViewModel @Inject constructor(
                     /*repository.deleteMessage(
                         event.message
                     )*/
-                    repository.deleteByText(event.message.text)
+                    //repository.deleteByText(event.message.text)
+                    TestApi.retrofitService.deleteMessage(event.message.text)
 
                 }
             }

@@ -25,8 +25,9 @@ fun SavedAudiosPageScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: SavedAudiosPageViewModel = hiltViewModel()
 ){
-    val messages = viewModel.messages.collectAsState(initial = emptyList())
+    //val messages = viewModel.messages.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
+    val messages = viewModel.messages
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -71,10 +72,10 @@ fun SavedAudiosPageScreen(
 
 
 
-        LazyColumn(
+       padding -> LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(messages.value) { message ->
+            items(messages) { message ->
                 SavedAudioItem(
                     message = message,
                     onEvent = viewModel::onEvent,

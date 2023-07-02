@@ -1,5 +1,6 @@
 package com.plcoding.mvvmtodoapp.ui.register_page
 
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,6 +11,8 @@ import com.plcoding.mvvmtodoapp.data.LoginRepository
 import com.plcoding.mvvmtodoapp.data.Todo
 import com.plcoding.mvvmtodoapp.data.TodoRepository
 import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoEvent
+import com.plcoding.mvvmtodoapp.ui.start_page.PostUser
+import com.plcoding.mvvmtodoapp.ui.start_page.TestApi
 import com.plcoding.mvvmtodoapp.util.Routes
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,12 +50,13 @@ class RegisterPageViewModel @Inject constructor(
                         ))
                         return@launch
                     }*/
-                     repository.insertLogin(
+                     /*repository.insertLogin(
                         Login(
                             username = username,
                             password = password
                         )
-                    )
+                    )*/
+                    TestApi.retrofitService.createUser(PostUser(username, password))
                     sendUiEvent(UiEvent.PopBackStack)
                 }
             }
