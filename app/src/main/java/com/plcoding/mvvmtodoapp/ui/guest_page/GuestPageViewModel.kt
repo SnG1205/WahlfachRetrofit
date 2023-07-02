@@ -40,14 +40,11 @@ class GuestPageViewModel @Inject constructor(
     application: Application
 ): ViewModel(){
 
-     val voiceToText by lazy {
-        VoiceToTextParser(application)
-    }
-
     var text by mutableStateOf("")
     var invisible by mutableStateOf("")
     var time by mutableStateOf<Long>(0)
     var randomText by mutableStateOf("Empty now")
+    var recorded by mutableStateOf("")
 
 
     val user_id = savedStateHandle.get<String>("db_id")!!
@@ -80,7 +77,7 @@ class GuestPageViewModel @Inject constructor(
                             user_id = user_id.toInt()
                         )
                     )*/
-                    TestApi.retrofitService.createMessage(PostMessages(text, user_id.toInt()))
+                    TestApi.retrofitService.createMessage(PostMessages(event.text, user_id.toInt()))
                     sendUiEvent(UiEvent.ShowSnackbar(
                         message = "Message successfully created"
                     ))

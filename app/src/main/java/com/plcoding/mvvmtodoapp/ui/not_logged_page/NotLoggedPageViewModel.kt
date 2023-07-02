@@ -18,27 +18,20 @@ class NotLoggedPageViewModel @Inject constructor(
 
 ) : ViewModel() {
     var text by mutableStateOf("")
-    var invisible by mutableStateOf("")
-    var time by mutableStateOf<Long>(0)
 
-
-    private val _uiEvent =  Channel<UiEvent>()
+    private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: NotLoggedPageEvent) {
-        when(event) {
+        when (event) {
 
-            is NotLoggedPageEvent.OnTextChange -> {
-                text = event.text
+            is NotLoggedPageEvent.onAudioClick -> {
+                sendUiEvent(UiEvent.Voice)
             }
 
             is NotLoggedPageEvent.OnMainMenuClick -> {
                 viewModelScope.launch {
-
-                    viewModelScope.launch {
-                        sendUiEvent(UiEvent.Navigate(Routes.START_PAGE))
-                    }
-
+                    sendUiEvent(UiEvent.Navigate(Routes.START_PAGE))
                 }
             }
 

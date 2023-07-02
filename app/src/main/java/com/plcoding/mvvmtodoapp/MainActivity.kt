@@ -31,7 +31,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    var outputTxt by mutableStateOf("Empty")
+    var outputTxt by mutableStateOf("")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(
                         route = Routes.REGISTER_PAGE
-                    ){
+                    ) {
                         RegisterPageScreen(
                             onPopBackStack = {
                                 navController.popBackStack()
@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(
                         route = Routes.LOGIN_PAGE
-                    ){
+                    ) {
                         LoginPageScreen(
                             onNavigate = {
                                 navController.navigate((it.route))
@@ -80,18 +80,18 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(
-                        route = Routes.GUEST_PAGE + "?db_id={db_id}" +"?db_username={db_username}",
+                        route = Routes.GUEST_PAGE + "?db_id={db_id}" + "?db_username={db_username}",
                         arguments = listOf(
-                            navArgument(name = "db_id"){
+                            navArgument(name = "db_id") {
                                 type = NavType.StringType
                                 defaultValue = ""
                             },
-                            navArgument(name = "db_username"){
+                            navArgument(name = "db_username") {
                                 type = NavType.StringType
                                 defaultValue = ""
                             }
                         )
-                    ){
+                    ) {
                         GuestPageScreen(
                             onNavigate = {
                                 navController.navigate((it.route))
@@ -106,12 +106,12 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = Routes.SAVED_AUDIOS_PAGE + "?user_id={user_id}",
                         arguments = listOf(
-                            navArgument(name = "user_id"){
+                            navArgument(name = "user_id") {
                                 type = NavType.StringType
                                 defaultValue = ""
                             }
                         )
-                    ){
+                    ) {
                         SavedAudiosPageScreen(
                             onNavigate = {
                                 navController.navigate((it.route))
@@ -123,11 +123,16 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(
                         route = Routes.NOT_LOGGED_PAGE
-                    ){
+                    ) {
                         NotLoggedPageScreen(
                             onNavigate = {
-                            navController.navigate(it.route)
-                        })
+                                navController.navigate(it.route)
+                            },
+                            onVoice = {
+                                getSpeechInput()
+                            },
+                            recordedMessage = outputTxt
+                        )
                     }
 
                 }
@@ -135,7 +140,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-     fun getSpeechInput() {
+    fun getSpeechInput() {
         // on below line we are checking if speech
         // recognizer intent is present or not.
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {

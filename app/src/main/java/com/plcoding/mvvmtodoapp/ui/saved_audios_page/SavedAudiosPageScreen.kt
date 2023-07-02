@@ -88,9 +88,9 @@ fun SavedAudiosPageScreen(
 
         Spacer(modifier = Modifier.padding(8.dp))
 
-        OutlinedButton(onClick = { viewModel.onEvent(SavedAudiosPageEvent.SortAudios(SortType.TEXT)) }) {
+        /*OutlinedButton(onClick = { viewModel.onEvent(SavedAudiosPageEvent.SortAudios(SortType.TEXT)) }) {
             Text(text = "Sort By Text")
-        }
+        }*/
     }
 
 

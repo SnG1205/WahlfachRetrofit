@@ -4,7 +4,7 @@ import com.plcoding.mvvmtodoapp.ui.add_edit_todo.AddEditTodoEvent
 
 sealed class GuestPageEvent{
     data class OnTextChange(val text: String):GuestPageEvent()
-    object OnSaveClick: GuestPageEvent()
+    data class OnSaveClick(val text: String): GuestPageEvent()
     object OnLogOutClick: GuestPageEvent()
     object OnSavedAudiosClick: GuestPageEvent()
     object OnRecordClick: GuestPageEvent()

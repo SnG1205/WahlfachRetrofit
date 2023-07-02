@@ -31,17 +31,19 @@ class RegisterPageViewModel @Inject constructor(
     var password by mutableStateOf("")
         private set
 
-    private val _uiEvent =  Channel<UiEvent>()
+    private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: RegisterPageEvent) {
-        when(event) {
+        when (event) {
             is RegisterPageEvent.OnUsernameChange -> {
                 username = event.username
             }
+
             is RegisterPageEvent.OnPasswordChange -> {
                 password = event.password
             }
+
             is RegisterPageEvent.OnCreateClick -> {
                 viewModelScope.launch {
                     /*if(username.isBlank()) {
@@ -50,14 +52,35 @@ class RegisterPageViewModel @Inject constructor(
                         ))
                         return@launch
                     }*/
-                     /*repository.insertLogin(
-                        Login(
-                            username = username,
-                            password = password
+                    /*repository.insertLogin(
+                       Login(
+                           username = username,
+                           password = password
+                       )
+                   )*/
+                    if (username.replace(" ", "") == "" || password == "") {
+                        sendUiEvent(
+                            UiEvent.ShowSnackbar(
+                                message = "Username and password can`t be empty"
+                            )
                         )
-                    )*/
-                    TestApi.retrofitService.createUser(PostUser(username, password))
-                    sendUiEvent(UiEvent.PopBackStack)
+                        username = ""
+                        password = ""
+                    } else {
+                        if(username.contains(' ') || password.contains(' ')){
+                            sendUiEvent(
+                                UiEvent.ShowSnackbar(
+                                    message = "No spaces allowed"
+                                )
+                            )
+                            username = ""
+                            password = ""
+                        }
+                        else{
+                            TestApi.retrofitService.createUser(PostUser(username, password))
+                            sendUiEvent(UiEvent.PopBackStack)
+                        }
+                    }
                 }
             }
         }

@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -27,35 +28,14 @@ fun GuestPageScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     onVoice: () -> Unit,
     recordedMessage: String
-    ){
-
-    var canRecord by remember {
-        mutableStateOf(false)
-    }
-
-    val voiceState by viewModel.voiceToText.state.collectAsState()
-
-    val voiceGoogle = VoiceGoogle()
-    val context = LocalContext.current
-    val main = MainActivity()
-    var forVoice =false
+) {
 
     val scaffoldState = rememberScaffoldState()
-
-    // Creates an permission request
-    val recordAudioLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { isGranted ->
-            canRecord = isGranted
-        }
-    )
-
-    var showMenu by remember {mutableStateOf(false)}
+    var showMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
-        recordAudioLauncher.launch(Manifest.permission.RECORD_AUDIO)
         viewModel.uiEvent.collect { event ->
-            when(event) {
+            when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
@@ -63,6 +43,7 @@ fun GuestPageScreen(
                         actionLabel = event.action
                     )
                 }
+
                 is UiEvent.Voice -> onVoice()
                 else -> Unit
             }
@@ -72,9 +53,9 @@ fun GuestPageScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(title = { Text(text = "Welcome, ${viewModel.user}!")},
+            TopAppBar(title = { Text(text = "Welcome, ${viewModel.user}!") },
                 actions = {
-                    IconButton(onClick = {showMenu = !showMenu}) {
+                    IconButton(onClick = { showMenu = !showMenu }) {
                         Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More")
                     }
 
@@ -83,7 +64,8 @@ fun GuestPageScreen(
                             Text(text = "Saved audios")
                         }
                         DropdownMenuItem(onClick = {
-                            viewModel.onEvent(GuestPageEvent.OnLogOutClick) }) {
+                            viewModel.onEvent(GuestPageEvent.OnLogOutClick)
+                        }) {
                             Text(text = "Log out")
                         }
                     }
@@ -92,17 +74,21 @@ fun GuestPageScreen(
 
 
         }
-    ){
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(6.dp),
-            Arrangement.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(6.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Welcome to  Guest Page, Development is in progress")
+            Text(text = "Welcome to  Guest Page.")
+            Text(text = "Click on button below to start recording")
+            //, click on button below to start recording
 
-            Spacer(modifier = Modifier.padding(8.dp))
+            //Spacer(modifier = Modifier.padding(8.dp))
 
-            TextField(
+            /*TextField(
                 value = viewModel.text ,
                 onValueChange = {
                     viewModel.onEvent(GuestPageEvent.OnTextChange(it))
@@ -111,61 +97,37 @@ fun GuestPageScreen(
                     Text(text = "Note")
                 },
                 modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            OutlinedButton(onClick = {
-                viewModel.onEvent(GuestPageEvent.OnSaveClick)
-                viewModel.text =""
-            }) {
-                Text(text = "Save")
-            }
+            )*/
 
             Spacer(modifier = Modifier.padding(16.dp))
 
-            OutlinedButton(onClick = {
-                /*if (!voiceState.isSpeaking) {
-                    viewModel.voiceToText.startListening("en")
-                } else {
-                    viewModel.voiceToText.stopListening()
-                    viewModel.randomText = voiceState.spokenText
-                }*/
-                //voiceGoogle.getSpeechInput()
-                //viewModel.onEvent(GuestPageEvent.OnRecordClick)
-                //voiceGoogle.getSpeechInput(context)
-                //main.getSpeechInput()
-                viewModel.onEvent(GuestPageEvent.OnRecordClick)
-            }) {
+            OutlinedButton(
+                onClick = {
+                    /*if (!voiceState.isSpeaking) {
+                        viewModel.voiceToText.startListening("en")
+                    } else {
+                        viewModel.voiceToText.stopListening()
+                        viewModel.randomText = voiceState.spokenText
+                    }*/
+                    //voiceGoogle.getSpeechInput()
+                    //viewModel.onEvent(GuestPageEvent.OnRecordClick)
+                    //voiceGoogle.getSpeechInput(context)
+                    //main.getSpeechInput()
+                    viewModel.onEvent(GuestPageEvent.OnRecordClick)
+                },
+                Modifier.size(120.dp, 40.dp)
+            ) {
                 Text(text = "Record")
             }
-
             Spacer(modifier = Modifier.padding(8.dp))
-
-            Text(text = viewModel.invisible)
-
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            Text(text = viewModel.user_id)
-
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            Text(text = viewModel.time.toString())
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            Text(text = viewModel.randomText)
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            AnimatedContent(targetState = voiceState.isSpeaking) { isSpeaking ->
-                if (isSpeaking) {
-                    Text(
-                        text = "Speak...",
-                        )
-                } else {
-                    Text(
-                        text = voiceState.spokenText.ifEmpty { "Click on record" },
-                    )
-                }
+            OutlinedButton(
+                onClick = {
+                    viewModel.onEvent(GuestPageEvent.OnSaveClick(recordedMessage))
+                    viewModel.text = ""
+                },
+                Modifier.size(120.dp, 40.dp)
+            ) {
+                Text(text = "Save")
             }
             Spacer(modifier = Modifier.padding(8.dp))
             Text(text = recordedMessage)

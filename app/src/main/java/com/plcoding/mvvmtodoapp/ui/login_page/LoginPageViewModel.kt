@@ -22,28 +22,30 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginPageViewModel @Inject constructor(
     private val repository: LoginRepository
-): ViewModel(){
+) : ViewModel() {
     var username by mutableStateOf("")
         private set
 
     var password by mutableStateOf("")
         private set
 
-    var db_username by mutableStateOf("")
+    var db_username by mutableStateOf("empty")
 
-    var db_id by mutableStateOf("")
+    var db_id by mutableStateOf("empty")
 
-    private val _uiEvent =  Channel<UiEvent>()
+    private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: LoginPageEvent) {
-        when(event) {
+        when (event) {
             is LoginPageEvent.OnUsernameChange -> {
                 username = event.username
             }
+
             is LoginPageEvent.OnPasswordChange -> {
                 password = event.password
             }
+
             is LoginPageEvent.OnLoginClick -> {
                 viewModelScope.launch {
                     /*if(username.isBlank()) {
@@ -56,17 +58,33 @@ class LoginPageViewModel @Inject constructor(
                         username = username,
                         password = password
                     ).toString()*/
-                    db_username = TestApi.retrofitService.getUsername(username, password)[0].username
+
+                    if (TestApi.retrofitService.getUsername(username, password).isEmpty()) {
+                        sendUiEvent(
+                            UiEvent.ShowSnackbar(
+                                message = "Wrong credentials entered"
+                            )
+                        )
+                        username = ""
+                        password = ""
+                    } else {
+                        db_username = TestApi.retrofitService.getUsername(
+                            username,
+                            password
+                        )[0].username.toString()
+                        db_id =
+                            TestApi.retrofitService.getUsername(username, password)[0].id.toString()
+                    }
+
 
                     /*db_id = repository.getId(
                         username, password
                     ).toString()*/
-                    db_id =TestApi.retrofitService.getUsername(username, password)[0].id.toString()
 
-                    if(db_username == username) {
-                        sendUiEvent(UiEvent.Navigate(Routes.GUEST_PAGE + "?db_id=${db_id}" +"?db_username=${db_username}"))
-                    }
-                    else{
+
+                    if (db_username == username) {
+                        sendUiEvent(UiEvent.Navigate(Routes.GUEST_PAGE + "?db_id=${db_id}" + "?db_username=${db_username}"))
+                    } else {
                         db_username = "Not working"
                     }
                 }

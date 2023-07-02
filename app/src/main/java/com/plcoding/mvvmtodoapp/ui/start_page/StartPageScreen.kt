@@ -8,6 +8,7 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.mvvmtodoapp.util.UiEvent
 import kotlinx.coroutines.flow.collect
@@ -31,42 +32,30 @@ fun StartPageScreen(
     }
     Column(modifier = Modifier
         .fillMaxSize(),
-        Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
             ) {
-        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnLoginClick) }) {
+        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnLoginClick) },
+        Modifier.size(200.dp, 40.dp)) {
             Text(text = "Login")
         }
 
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(16.dp))
 
-        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnRegisterClick) }) {
+        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnRegisterClick) },
+            Modifier.size(200.dp, 40.dp)) {
             Text(text = "Register")
         }
 
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(16.dp))
 
-        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnGuestClick) }) {
+        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnGuestClick) },
+            Modifier.size(200.dp, 40.dp)) {
             Text(text = "Continue as  Guest")
         }
 
-        Spacer(modifier = Modifier.padding(8.dp))
-
-        OutlinedButton(onClick = { viewModel.onEvent(StartPageEvent.OnGetDataClick) }) {
-            Text(text = "Get the data")
-        }
-
-        Spacer(modifier = Modifier.padding(8.dp))
-
-        /*LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(viewModel.display) { display ->
-                Text(text = display.id.toString())
-            }
-        }*/
-
-        Text(text = viewModel.json)
-        Text(text = viewModel.messages.size.toString())
+        /*Text(text = viewModel.json)
+        Text(text = viewModel.messages.size.toString())*/
     }
 
 
